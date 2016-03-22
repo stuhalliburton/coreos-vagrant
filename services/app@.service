@@ -1,0 +1,38 @@
+[Unit]
+Description=Sinatra Frontend %H:%i
+
+# Requirements
+Requires=etcd2.service
+Requires=docker.service
+
+# Dependency ordering
+After=etcd2.service
+After=docker.service
+Before=app-discovery@%i.service
+
+[Service]
+# Let processes take awhile to start up (for first run Docker containers)
+TimeoutStartSec=0
+
+# Change killmode from "control-group" to "none" to let Docker remove
+# work correctly.
+KillMode=none
+
+# Get CoreOS environmental variables
+EnvironmentFile=/etc/environment
+
+
+# Pre-start and Start
+## Directives with "=-" are allowed to fail without consequence
+ExecStartPre=-/usr/bin/docker kill sinatra%i
+ExecStartPre=-/usr/bin/docker rm sinatra%i
+ExecStartPre=/usr/bin/docker pull ruby:2.3.0
+ExecStartPre=/usr/bin/docker build --rm -t sinatra-image /app
+ExecStart=/usr/bin/docker run --rm -i --name sinatra%i -p %i:9292 sinatra-image
+
+
+# Stop
+ExecStop=/usr/bin/docker stop sinatra%i
+
+[X-Fleet]
+Conflicts=app@*.service
