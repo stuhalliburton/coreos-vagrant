@@ -1,5 +1,5 @@
 [Unit]
-Description=Sinatra Frontend %H:%i
+Description=Application Frontend: [%p%i : %n] - (%H:%i)
 
 #################
 ### REQUIREMENTS
