@@ -42,6 +42,7 @@ ExecStop=/usr/bin/docker stop %p%i
 
 [X-Fleet]
 Conflicts=%p@*.service
+Conflicts=app@*.service
 
 
 [Install]
