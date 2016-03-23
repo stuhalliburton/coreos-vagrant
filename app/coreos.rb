@@ -9,7 +9,7 @@ class App < Sinatra::Base
   end
 
   get "/" do
-    "<h4>Hello CoreOS World: <small>#{settings.environment}</small></h4>" +
-    "<div><i>Helloing you from #{%x('hostname')}</i></div>"
+    "<h2>Hello CoreOS World: <strong>#{%x('hostname')}</strong> <small>#{settings.environment}</small></h2>" +
+    "<div><p>RELOAD TEST: MY TEST TEXT</p></div>"
   end
 end
