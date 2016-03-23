@@ -1,5 +1,5 @@
 [Unit]
-Description=App server on ${COREOS_PRIVATE_IPV4}:%i etcd registration
+Description=App server on app@%i etcd registration
 
 # Requirements
 Requires=etcd2.service
