@@ -17,7 +17,8 @@ Before=app-discovery@%i.service
 
 
 [Service]
-# Let processes take awhile to start up (for first run Docker containers)
+Restart=always
+RestartSec=20s
 TimeoutStartSec=0
 
 # Change killmode "control-group" -> "none" to let Docker remove work correctly.
