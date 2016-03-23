@@ -1,24 +1,21 @@
 [Unit]
-Description=Application Frontend: [%p%i : %n] - (%H:%i)
+Description=Image Preloader: [%p%i : %n] - (%H:%i)
 
 #################
 ### REQUIREMENTS
-Requires=etcd2.service
 Requires=docker.service
 #################
 
 
 #################
 ### DEPENDENCIES
-After=etcd2.service
 After=docker.service
-Before=app-discovery@%i.service
 #################
 
 
 [Service]
 Restart=always
-RestartSec=20s
+RestartSec=600s
 TimeoutStartSec=0
 
 # Change killmode "control-group" -> "none" to let Docker remove work correctly.
@@ -29,19 +26,25 @@ EnvironmentFile=/etc/environment
 
 ##########
 ### START
-ExecStartPre=-/usr/bin/docker rm sinatra%i src%i
-ExecStartPre=-/usr/bin/docker kill sinatra%i src%i
-ExecStartPre=/usr/bin/docker build --rm -t sinatra-image /app
-ExecStart=/usr/bin/docker run --name sinatra%i -p %i:9292 sinatra-image
+ExecStartPre=-/usr/bin/docker rm %p%i
+ExecStartPre=-/usr/bin/docker kill %p%i
+ExecStartPre=-/usr/bin/docker pull ruby:2.3.0
+ExecStartPre=-/usr/bin/docker pull ubuntu:14.04
+ExecStartPre=-/usr/bin/docker pull busybox
+
+ExecStart=-/usr/bin/docker run --name %p%i busybox true
 ##########
 
 
 #########
 ### STOP
-ExecStop=/usr/bin/docker stop sinatra%i
-ExecStopPost=-/usr/bin/docker stop src%i
+ExecStop=/usr/bin/docker stop %p%i
 ##########
 
 
 [X-Fleet]
 Conflicts=%p@*.service
+
+
+[Install]
+WantedBy=multi-user.target
