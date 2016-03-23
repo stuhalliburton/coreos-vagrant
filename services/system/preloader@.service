@@ -26,13 +26,11 @@ EnvironmentFile=/etc/environment
 
 ##########
 ### START
-ExecStartPre=-/usr/bin/docker rm %p%i
-ExecStartPre=-/usr/bin/docker kill %p%i
 ExecStartPre=-/usr/bin/docker pull ruby:2.3.0
 ExecStartPre=-/usr/bin/docker pull ubuntu:14.04
 ExecStartPre=-/usr/bin/docker pull busybox
 
-ExecStart=-/usr/bin/docker run --name %p%i busybox true
+ExecStart=-/usr/bin/docker run --rm --name %p%i busybox true
 ##########
 
 
