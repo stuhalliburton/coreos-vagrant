@@ -10,7 +10,8 @@ After=etcd2.service
 After=docker.service
 
 [Service]
-# Let the process take awhile to start up (for first run Docker containers)
+Restart=always
+RestartSec=20s
 TimeoutStartSec=0
 
 # Change killmode from "control-group" to "none" to let Docker remove
