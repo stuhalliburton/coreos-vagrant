@@ -29,17 +29,16 @@ EnvironmentFile=/etc/environment
 
 ##########
 ### START
-ExecStartPre=-/usr/bin/docker rm sinatra%i src%i
-ExecStartPre=-/usr/bin/docker kill sinatra%i src%i
+ExecStartPre=-/usr/bin/docker rm sinatra%i
+ExecStartPre=-/usr/bin/docker kill sinatra%i
 ExecStartPre=/usr/bin/docker build --rm -t sinatra-image /app
-ExecStart=/usr/bin/docker run --name sinatra%i -p %i:9292 sinatra-image
+ExecStart=/usr/bin/docker run -i --name sinatra%i -v /app:/usr/src/app -p %i:9292  sinatra-image
 ##########
 
 
 #########
 ### STOP
-ExecStop=/usr/bin/docker stop sinatra%i
-ExecStopPost=-/usr/bin/docker stop src%i
+ExecStop=-/usr/bin/docker stop sinatra%i
 ##########
 
 

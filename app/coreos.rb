@@ -9,7 +9,8 @@ class App < Sinatra::Base
   end
 
   get "/" do
+    text = 'RELOAD...'
     "<h2>Hello CoreOS World: <strong>#{%x('hostname')}</strong> <small>#{settings.environment}</small></h2>" +
-    "<div><p>RELOAD TEST: MY TEST TEXT</p></div>"
+    "<div><p>#{text}</p></div>"
   end
 end
