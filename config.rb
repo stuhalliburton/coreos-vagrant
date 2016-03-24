@@ -82,7 +82,8 @@ $vm_cpus = 1
 $shared_folders = {
   './services' => '/services',
   './app' => '/app',
-  './nginx' => '/nginx'
+  './nginx' => '/nginx',
+  './mounts' => '/mounts'
 }
 
 # Enable port forwarding from guest(s) to host machine, syntax is: { 80 => 8080 }, auto correction is enabled by default.

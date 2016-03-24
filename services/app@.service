@@ -7,7 +7,6 @@ Requires=etcd2.service
 Requires=docker.service
 #################
 
-
 #################
 ### DEPENDENCIES
 After=etcd2.service

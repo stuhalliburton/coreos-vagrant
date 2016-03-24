@@ -1,0 +1,47 @@
+[Unit]
+Description=Redis Server: [%p%i : %n] - (%H:%i)
+
+#################
+### REQUIREMENTS
+Requires=mnt-redis.mount
+#################
+
+#################
+### DEPENDENCIES
+After=mnt-redis.mount
+#################
+
+
+###########
+### MOUNTS
+RequiresMountsFor=/mnt/redis
+###########
+
+
+[Service]
+Restart=always
+RestartSec=10s
+TimeoutStartSec=0
+
+# Change killmode "control-group" -> "none" to let Docker remove work correctly.
+KillMode=none
+
+# Get CoreOS environmental variables
+EnvironmentFile=/etc/environment
+
+##########
+### START
+##########
+ExecStartPre=-/usr/bin/docker rm %p%i
+ExecStartPre=-/usr/bin/docker kill %p%i
+ExecStart=/usr/bin/docker run --rm --name %p%i -v /mnt/redis:/data -p 6379:6379 redis redis-server --appendonly yes
+##########
+
+#########
+### STOP
+ExecStop=/usr/bin/docker stop %p%i
+##########
+
+
+[X-Fleet]
+Conflicts=%p@*.service

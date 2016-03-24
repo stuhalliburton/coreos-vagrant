@@ -1,0 +1,12 @@
+[Unit]
+Description=Redis Data Mount
+
+
+[Mount]
+What=172.17.8.200:/mnt/default/data
+Where=/mnt/redis
+Type=nfs
+Options=vers=3,sec=sys,noauto
+
+[X-Fleet]
+Global=true
